@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2017 the original author or authors.
+ * Copyright 2013-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,16 @@
 
 package org.springframework.cloud.gateway.filter.factory;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.route.Route;
+import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
+import org.springframework.cloud.gateway.filter.RouteToRequestUrlFilter;
 
-import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR;
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 public class RequestHeaderToRouteUrlGatewayFilterFactory
 		extends AbstractGatewayFilterFactory<AbstractGatewayFilterFactory.NameConfig> {
@@ -39,22 +41,15 @@ public class RequestHeaderToRouteUrlGatewayFilterFactory
 	}
 
 	public GatewayFilter apply(NameConfig config) {
-		return (exchange, chain) -> {
-			String requestUrl = exchange.getRequest().getHeaders()
-					.getFirst(config.getName());
-			if (requestUrl != null) {
+		return new OrderedGatewayFilter((exchange, chain) -> {
+			{
+				String requestUrl = exchange.getRequest().getHeaders()
+						.getFirst(config.getName());
+				System.out.println("requestUrl = " + requestUrl);
 				Map<String, Object> attributes = exchange.getAttributes();
-				Route route = (Route) attributes.get(GATEWAY_ROUTE_ATTR);
-				Route newRoute = Route.builder() //
-						.id(route.getId()) //
-						.uri(requestUrl) //
-						.order(route.getOrder()) //
-						.predicate(route.getPredicate()) //
-						.filters(route.getFilters()) //
-						.build();
-				attributes.put(GATEWAY_ROUTE_ATTR, newRoute);
+				attributes.put(GATEWAY_REQUEST_URL_ATTR, URI.create(requestUrl));
+				return chain.filter(exchange);
 			}
-			return chain.filter(exchange);
-		};
+		}, RouteToRequestUrlFilter.ROUTE_TO_URL_FILTER_ORDER + 1);
 	}
 }

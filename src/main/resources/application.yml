@@ -10,13 +10,17 @@ spring:
         filters:
         - SetRequestHeader=User-Agent, Spring Cloud Gateway/2.0.0.M9
         - RequestHeaderToRouteUrl=X-CF-Forwarded-Url
-        - RemoveRequestHeader=X-CF-Forwarded-Url
         - RemoveResponseHeader=Via
         - RemoveResponseHeader=Server
         - RemoveResponseHeader=X-Powered-By
         - RemoveResponseHeader=X-Processed-Time
         - SecureHeaders=
         - Logging=
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 #logging:
 #  level:
 #    org.springframework.cloud.gateway: debug
