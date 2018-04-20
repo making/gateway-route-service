@@ -9,9 +9,10 @@ $ curl localhost:8080 -H "X-CF-Forwarded-Url: http://httpbin.org/headers" -H "X-
   "headers": {
     "Accept": "*/*", 
     "Connection": "close", 
-    "Forwarded": "proto=http;host=\"localhost:8080\";for=\"0:0:0:0:0:0:0:1:64348\"", 
+    "Forwarded": "proto=http;host=\"localhost:8080\";for=\"0:0:0:0:0:0:0:1:59298\"", 
     "Host": "httpbin.org", 
-    "User-Agent": "Spring Cloud Gateway/2.0.0.M9", 
+    "User-Agent": "curl/7.54.0", 
+    "X-Cf-Forwarded-Url": "http://httpbin.org/headers", 
     "X-Cf-Proxy-Metadata": "a", 
     "X-Cf-Proxy-Signature": "a", 
     "X-Forwarded-Host": "localhost:8080"
