@@ -8,7 +8,7 @@ spring:
         predicates:
         - CloudFoundryRouteService=
         filters:
-        - RequestHeaderToRouteUrl=X-CF-Forwarded-Url
+        - RequestHeaderToRequestUri=X-CF-Forwarded-Url
         - SecureHeaders=
         - Logging=
 management:

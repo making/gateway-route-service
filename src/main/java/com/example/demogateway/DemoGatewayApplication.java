@@ -2,7 +2,6 @@ package com.example.demogateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.gateway.filter.factory.RequestHeaderToRouteUrlGatewayFilterFactory;
 import org.springframework.cloud.gateway.handler.predicate.CloudFoundryRouteServiceRoutePredicateFactory;
 import org.springframework.context.annotation.Bean;
 
@@ -16,10 +15,5 @@ public class DemoGatewayApplication {
 	@Bean
 	public CloudFoundryRouteServiceRoutePredicateFactory cloudFoundryRouteServicePredicateFactory() {
 		return new CloudFoundryRouteServiceRoutePredicateFactory();
-	}
-
-	@Bean
-	public RequestHeaderToRouteUrlGatewayFilterFactory requestHeaderToGatewayRequestUrlGatewayFilterFactory() {
-		return new RequestHeaderToRouteUrlGatewayFilterFactory();
 	}
 }
